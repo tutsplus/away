@@ -1,4 +1,5 @@
 require "away/models"
+require "helpers/sequel"
 
 FactoryGirl.define do
   factory :extra
