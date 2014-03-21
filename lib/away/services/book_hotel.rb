@@ -9,11 +9,33 @@ module Away
     end
 
     def execute
-      @booking = Booking.new booking_data
-      save
+      begin
+        validate
+        @booking = Booking.new booking_data
+        save
+      rescue ValidationError => e
+        false
+      end
     end
 
     private
+
+    def validate
+      raise Away::ValidationError unless valid?
+    end
+
+    def valid?
+      !@hotel.nil? &&
+      !@date.nil? &&
+      @data.include?(:name) &&
+      !@data[:name].empty? &&
+      hotel_has_rooms?
+    end
+
+    def hotel_has_rooms?
+      booking_count = Booking.where(hotel_id: @hotel.id, starts_at: @date).count
+      @hotel.room_count > booking_count
+    end
 
     def save
       add_extras if @booking.save
