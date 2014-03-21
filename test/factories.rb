@@ -2,7 +2,9 @@ require "away/models"
 require "helpers/sequel"
 
 FactoryGirl.define do
-  factory :extra
+  factory :extra do
+    name "My Extra"
+  end
 
   factory :hotel do
     name "My Hotel"

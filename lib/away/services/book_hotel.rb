@@ -10,16 +10,32 @@ module Away
 
     def execute
       @booking = Booking.new booking_data
-      @booking.save
+      save
+    end
+
+    private
+
+    def save
+      add_extras if @booking.save
+    end
+
+    def add_extras
+      @extras.each do |extra|
+        @booking.add_extra extra
+      end
     end
 
     def booking_data
-      {
+      @data.merge({
+        starts_at: @date,
         hotel_id: @hotel.id,
-        name: @data[:name],
-        credit_card_number: @data[:credit_card_number],
-        credit_card_expires_at: Time.new(@data[:credit_card_expires_at][:year], @data[:credit_card_expires_at][:month])
-      }
+        credit_card_expires_at: credit_card_expires_at
+      })
+    end
+
+    def credit_card_expires_at
+      date = @data[:credit_card_expires_at]
+      Time.new date[:year], date[:month]
     end
 
   end
