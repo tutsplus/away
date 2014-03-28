@@ -1,6 +1,6 @@
 module Away
   class SearchHotels
-    def initialize options
+    def initialize options = {}
       @in = options[:instream] || $stdin
       @out = options[:outstream] || $stdout
     end
@@ -19,12 +19,14 @@ module Away
 
     def render
       if @hotels.any?
-      @out.puts <<EOF
+        @out.puts <<EOF
 We found these hotels:
 #{render_hotels}
 EOF
+        return true
       else
         @out.puts "There were no hotels that match your criteria."
+        return false
       end
     end
 

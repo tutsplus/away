@@ -1,0 +1,5 @@
+require "away/services/search_hotels"
+require "away/services/choose_hotel"
+require "away/services/select_extras"
+require "away/services/enter_data"
+require "away/services/book_hotel"

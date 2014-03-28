@@ -1,6 +1,6 @@
 module Away
   class EnterData
-    def initialize options
+    def initialize options = {}
       @in = options[:instream] || $stdin
       @out = options[:outstream] || $stdout
       @errors = []
@@ -20,6 +20,22 @@ module Away
       confirm
     end
 
+    def data
+      {
+        name: @name,
+        credit_card_number: @credit_card_number,
+        credit_card_expires_at: credit_card_expires_at
+      }
+    end
+
+    def credit_card_expires_at
+      date = @credit_card_expires_at.split("/")
+      return {
+        year: date[0],
+        month: date[1]
+      }
+    end
+
     def validate
       if @name.nil? || @name.empty?
         @errors << "The name you provided is probably empty."
@@ -37,6 +53,7 @@ module Away
     def confirm
       if @errors.any?
         @out.puts @errors.join "\n"
+        return false
       else
         @out.puts <<EOF
 Entered the following data:
@@ -44,6 +61,7 @@ User: #@name
 Credit card number: #@credit_card_number
 Credit card expiry date: #@credit_card_expires_at
 EOF
+        return true
       end
     end
   end

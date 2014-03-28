@@ -1,6 +1,7 @@
 module Away
   class ChooseHotel
-    def initialize options
+    attr_reader :hotel
+    def initialize options = {}
       @in = options[:instream] || $stdin
       @out = options[:outstream] || $stdout
     end
@@ -19,10 +20,12 @@ module Away
     def render
       if @hotel.nil?
         @out.puts "There was a problem choosing the hotel. Check your data."
+        return false
       else
         @out.puts <<EOF
 You have selected the hotel: #{@hotel.name}.
 EOF
+        return true
       end
     end
   end

@@ -1,6 +1,7 @@
 module Away
   class SelectExtras
-    def initialize hotel, options
+    attr_reader :extras
+    def initialize hotel, options = {}
       @hotel = hotel
       @in = options[:instream] || $stdin
       @out = options[:outstream] || $stdout
@@ -23,8 +24,8 @@ EOF
 
     def list_extras extras, options = {}
       extras.map do |extra|
-        id = options[:ids] === false ? "" : "[#{extra.id}]"
-        "#{extra.name}"
+        id = options[:ids] === false ? "" : "[#{extra.id}] "
+        "#{id}#{extra.name}"
       end.join "\n"
     end
 
@@ -46,6 +47,7 @@ EOF
       else
         @out.puts "You have chosen no extras. Proceed."
       end
+      true
     end
   end
 end

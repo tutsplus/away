@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require "bundler"
+Bundler.require
+
+$: << File.expand_path("../../lib", __FILE__)
+$: << File.expand_path("../../config", __FILE__)
+
+require "config"
+require "away"
+
+Away::App.start ARGV
